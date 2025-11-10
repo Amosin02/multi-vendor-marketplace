@@ -1,5 +1,9 @@
+# macOS system file
+.DS_Store
+
 # Dependencies
 /node_modules
+backend/node_modules
 
 # Environment files
 .env
