@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/UserModel');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
@@ -18,6 +19,13 @@ const handleErrors = (err) => {
   }
 
   return errors;
+};
+
+const maxAge = '60m';
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: maxAge,
+  });
 };
 
 // GET (Protected) Get the profile of the currently logged-in user.
@@ -45,7 +53,11 @@ router.post('/register', async (req, res) => {
   const { name, email, password, role } = req.body;
   try {
     const user = await User.create({ name, email, password, role });
-    res.status(200).json(user);
+
+    const token = createToken(user._id);
+
+    res.cookie('jwt', token, { httpOnly: true, maxAge: '3 days' });
+    res.status(200).json({ user: user._id });
   } catch (error) {
     const errors = handleErrors(error);
     res.status(400).json({ errors });
