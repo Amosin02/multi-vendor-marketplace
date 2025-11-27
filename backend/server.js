@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
 const categoriesRoutes = require('./routes/categories');
+const vendorRoutes = require('./routes/vendor');
 const cookieParser = require('cookie-parser');
 
 const app = express();
@@ -17,6 +18,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoriesRoutes);
+app.use('/api/vendor', vendorRoutes);
 app.use(cookieParser());
 
 // connect to db

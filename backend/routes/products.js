@@ -1,4 +1,6 @@
 const express = require('express');
+const { getProducts } = require('../controllers/productsControllers');
+const { createProduct } = require('../controllers/vendorController');
 
 const router = express.Router();
 
@@ -92,42 +94,13 @@ const products = [
   },
 ];
 
-router.get('/', (req, res) => {
-  try {
-    const vendorId = req.query.vendor;
-    const categoryId = req.query.category;
+// create products
+router.post('/create', createProduct);
 
-    const queryOptions = {
-      where: {},
-    };
+// get all products & can also search for vendors/categories
+router.get('/', getProducts);
 
-    let productQuery = {};
-
-    if (vendorId) {
-      const filteredVendor = products.filter(
-        (product) => product.vendorId === parseInt(vendorId, 10)
-      );
-      productQuery = filteredVendor;
-    }
-
-    if (categoryId) {
-      const filteredProducts = products.filter(
-        (product) => product.categoryId === parseInt(categoryId, 10)
-      );
-      productQuery = filteredProducts;
-    }
-
-    if (!categoryId && !vendorId) {
-      productQuery = products;
-    }
-
-    res.json({ mssg: productQuery });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: true, message: 'Internal Server Error' });
-  }
-});
-
+// search for products
 router.get('/search', (req, res) => {
   try {
     const itemSearched = req.query.q;
@@ -149,6 +122,7 @@ router.get('/search', (req, res) => {
   }
 });
 
+// get products using id
 router.get('/:id', (req, res) => {
   try {
     const productId = parseInt(req.params.id, 10);

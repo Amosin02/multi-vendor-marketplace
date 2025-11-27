@@ -1,4 +1,5 @@
 const express = require('express');
+const { createCategories } = require('../controllers/categoriesController');
 
 const router = express.Router();
 
@@ -68,6 +69,8 @@ const products = [
     vendorId: 10, // Sold by TechNova
   },
 ];
+
+router.post('/', createCategories);
 
 router.get('/', (req, res) => {
   try {
