@@ -1,5 +1,8 @@
 const express = require('express');
-const { createCategories } = require('../controllers/categoriesController');
+const {
+  createCategories,
+  getCategories,
+} = require('../controllers/categoriesController');
 
 const router = express.Router();
 
@@ -72,14 +75,7 @@ const products = [
 
 router.post('/', createCategories);
 
-router.get('/', (req, res) => {
-  try {
-    res.json({ mssg: categories });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: true, message: 'Internal Server Error' });
-  }
-});
+router.get('/', getCategories);
 
 router.get('/:id/products', (req, res) => {
   try {
