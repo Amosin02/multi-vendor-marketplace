@@ -13,6 +13,7 @@ const createVendor = async (req, res) => {
 };
 
 // GET /vendor/products // Get a list of the vendor's own products.
+const getProductOfVendors = async (req, res) => {};
 
 // POST /vendor/products // Create a new product for the vendor's store.
 const createProduct = async (req, res) => {

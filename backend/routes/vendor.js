@@ -9,6 +9,7 @@ const router = express.Router();
 router.post('/', createVendor);
 
 // GET /vendor/products // Get a list of the vendor's own products.
+// how tho
 router.get('/products', (req, res) => {
   res.json({ mssg: "Get all vendor's own products" });
 });

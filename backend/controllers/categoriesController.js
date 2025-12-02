@@ -1,4 +1,5 @@
 const Category = require('../models/CategoryModel');
+const Product = require('../models/ProductModel');
 
 const createCategories = async (req, res) => {
   const { name } = req.body;
@@ -21,7 +22,25 @@ const getCategories = async (req, res) => {
   }
 };
 
+const getProductsOfThatCategory = async (req, res) => {
+  try {
+    const catId = req.params.id;
+
+    let productQuery = {};
+
+    if (catId) {
+      productQuery = await Product.find({ category: catId });
+    }
+
+    res.status(200).json(productQuery);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: true, message: 'Internal Server Error' });
+  }
+};
+
 module.exports = {
   createCategories,
   getCategories,
+  getProductsOfThatCategory,
 };
