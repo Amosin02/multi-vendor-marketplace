@@ -1,6 +1,7 @@
 const express = require('express');
 const User = require('../models/UserModel');
 const jwt = require('jsonwebtoken');
+const { createUser } = require('../controllers/authController');
 
 const router = express.Router();
 
@@ -49,19 +50,6 @@ router.post('/login', async (req, res) => {
 });
 
 // POST Create a new customer account.
-router.post('/register', async (req, res) => {
-  const { name, email, password, role } = req.body;
-  try {
-    const user = await User.create({ name, email, password, role });
-
-    const token = createToken(user._id);
-
-    res.cookie('jwt', token, { httpOnly: true, maxAge: '3 days' });
-    res.status(200).json({ user: user._id });
-  } catch (error) {
-    const errors = handleErrors(error);
-    res.status(400).json({ errors });
-  }
-});
+router.post('/register', createUser);
 
 module.exports = router;
