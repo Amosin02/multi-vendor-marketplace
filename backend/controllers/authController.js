@@ -18,7 +18,7 @@ const handleErrors = (err) => {
   return errors;
 };
 
-const maxAge = '60m';
+const maxAge = 1000 * 60 * 60 * 24 * 3;
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: maxAge,
@@ -32,7 +32,10 @@ const createUser = async (req, res) => {
 
     const token = createToken(user._id);
 
-    res.cookie('jwt', token, { httpOnly: true, maxAge: '3 days' });
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 3,
+    });
     res.status(200).json({ user: user._id });
   } catch (error) {
     const errors = handleErrors(error);

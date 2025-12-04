@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
@@ -10,11 +11,12 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 app.use(express.json());
-app.use((req, res, next) => {
-  console.log(req.path, req.method);
-  next();
-});
 
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+  })
+);
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoriesRoutes);
