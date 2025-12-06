@@ -1,7 +1,7 @@
 const express = require('express');
 const User = require('../models/UserModel');
 const jwt = require('jsonwebtoken');
-const { createUser } = require('../controllers/authController');
+const { createUser, loginUser } = require('../controllers/authController');
 
 const router = express.Router();
 
@@ -40,14 +40,7 @@ router.get('/me', (req, res) => {
 });
 
 // POST Log in and receive a JSON Web Token (JWT).
-router.post('/login', async (req, res) => {
-  try {
-    res.json({ mssg: 'Log in and receive a JSON Web Token (JWT).' });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: true, message: 'Internal Server Error' });
-  }
-});
+router.post('/login', loginUser);
 
 // POST Create a new customer account.
 router.post('/register', createUser);

@@ -18,7 +18,7 @@ const Signup = () => {
     password = firstPassword;
     const account = { name, email, password };
 
-    const response = await fetch('http://localhost:4001/api/auth/register', {
+    const response = await fetch(`http://localhost:4001/api/auth/register`, {
       method: 'POST',
       body: JSON.stringify(account),
       headers: {
@@ -26,14 +26,10 @@ const Signup = () => {
       },
     });
 
-    let json = null;
+    const data = await response.json();
 
-    try {
-      if (response.status !== 204) {
-        json = await response.json();
-      }
-    } catch (error) {
-      console.log(error);
+    if (data.user) {
+      location.assign('/');
     }
 
     if (response.ok) {
@@ -70,7 +66,7 @@ const Signup = () => {
           </div>
           <div className="input-group">
             <label htmlFor="email" className="block text-l text-gray-700 mb-1">
-              Email Address
+              Email Address <div className="email error"></div>
             </label>
             <input
               type="email"
@@ -87,7 +83,7 @@ const Signup = () => {
             <label
               htmlFor="password"
               className="block text-l text-gray-700 mb-1">
-              Password
+              Password <div className="password error"></div>
             </label>
             <input
               type="password"
@@ -96,7 +92,7 @@ const Signup = () => {
               onChange={(e) => setFirstPassword(e.target.value)}
               value={firstPassword}
               required
-              placeholder="Must be at least 8 characters"
+              placeholder="Must be at least 6 characters"
               className="input-focus block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150"
             />
           </div>
