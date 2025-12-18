@@ -2,8 +2,24 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import { useEffect, useState } from 'react';
+import type { Products } from './model/model';
 
 function App() {
+  const [products, setProducts] = useState<Products[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const response = await fetch('http://localhost:4001/api/products');
+      const data = await response.json();
+
+      if (data.product) {
+        setProducts(data.product);
+      }
+    };
+
+    fetchProducts();
+  }, []);
   return (
     <>
       <BrowserRouter>
@@ -11,7 +27,7 @@ function App() {
           <Routes>
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home products={products} />} />
           </Routes>
         </div>
       </BrowserRouter>
