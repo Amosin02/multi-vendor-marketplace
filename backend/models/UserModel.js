@@ -28,7 +28,7 @@ const userSchema = new Schema(
     },
     role: {
       type: String,
-      enum: ['customer', 'admin'], // Restricts the role to one of these two values
+      enum: ['customer', 'vendor'], // Restricts the role to one of these two values
       default: 'customer',
     },
   },

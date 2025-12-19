@@ -24,12 +24,13 @@ const Signup = () => {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
     });
 
     const data = await response.json();
 
     if (data.user) {
-      location.assign('/');
+      location.assign('/home');
     }
 
     if (response.ok) {

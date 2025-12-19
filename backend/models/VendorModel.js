@@ -4,6 +4,12 @@ const Schema = mongoose.Schema;
 
 const vendorSchema = new Schema(
   {
+    vendorId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User', // This links to your 'User' model
+      required: true,
+      unique: true,
+    },
     name: {
       type: String,
       required: true,

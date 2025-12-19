@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import { useEffect, useState } from 'react';
 import type { Products } from './model/model';
+import HomeVendor from './pages/HomeVendor';
 
 function App() {
   const [products, setProducts] = useState<Products[]>([]);
@@ -28,6 +29,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home products={products} />} />
+            <Route path="/vendor" element={<HomeVendor />} />
           </Routes>
         </div>
       </BrowserRouter>

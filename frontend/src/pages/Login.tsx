@@ -15,12 +15,14 @@ export default function Login() {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
       });
 
       const data = await response.json();
 
       if (data.user) {
-        location.assign('/');
+        // location.assign('/home');
+        console.log(data);
       }
     } catch (error) {
       console.log(error);

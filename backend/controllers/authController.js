@@ -44,7 +44,7 @@ const createUser = async (req, res) => {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24,
     });
-    res.status(200).json({ user: user._id });
+    res.status(200).json({ user: user._id, role: user.role });
   } catch (error) {
     const errors = handleErrors(error);
     res.status(400).json({ errors });
@@ -62,11 +62,26 @@ const loginUser = async (req, res) => {
       maxAge: 1000 * 60 * 60 * 24,
     });
 
-    res.status(200).json({ user: user._id });
+    res.status(200).json({ user: user._id, role: user.role });
   } catch (error) {
     const errors = handleErrors(error);
     res.status(400).json({ errors });
   }
 };
 
-module.exports = { createUser, loginUser };
+const getDetailsOfMe = async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const user = await User.findById(userId);
+
+    res
+      .status(200)
+      .json({ name: user.name, email: user.email, role: user.role });
+  } catch (error) {
+    const errors = handleErrors(error);
+    res.status(400).json({ errors });
+  }
+};
+
+module.exports = { createUser, loginUser, getDetailsOfMe };
