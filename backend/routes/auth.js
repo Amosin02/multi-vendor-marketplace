@@ -5,6 +5,7 @@ const {
   createUser,
   loginUser,
   getDetailsOfMe,
+  logout,
 } = require('../controllers/authController');
 const { requireAuth } = require('../middleware/authMiddleware');
 
@@ -18,5 +19,7 @@ router.post('/login', loginUser);
 
 // POST Create a new customer account.
 router.post('/register', createUser);
+
+router.get('/logout', logout);
 
 module.exports = router;

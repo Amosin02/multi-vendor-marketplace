@@ -84,4 +84,9 @@ const getDetailsOfMe = async (req, res) => {
   }
 };
 
-module.exports = { createUser, loginUser, getDetailsOfMe };
+const logout = (req, res) => {
+  res.cookie('jwt', '', { maxAge: 1 });
+  res.status(200).json({ mssg: "you're Logged Out" });
+};
+
+module.exports = { createUser, loginUser, getDetailsOfMe, logout };
