@@ -1,20 +1,43 @@
-import { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { useNavigate } from 'react-router-dom';
 
+const formSchema = z.object({
+  email: z.string().email({
+    message: 'Invalid email address.',
+  }),
+  password: z.string().min(1, {
+    message: 'Password is required.',
+  }),
+});
+
 export default function Login() {
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
 
-    const account = { email, password };
-
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await fetch('http://localhost:4001/api/auth/login', {
         method: 'POST',
-        body: JSON.stringify(account),
+        body: JSON.stringify(values),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -28,57 +51,78 @@ export default function Login() {
       }
     } catch (error) {
       console.log(error);
+      //   change this to something better
     }
-  };
+  }
+
   return (
-    <div className="bg-backgroundWhite flex flex-col items-center justify-center min-h-screen p-4">
-      <header></header>
-      <main className="bg-navbarGray p-8 rounded-xl shadow-2xl w-full max-w-md">
-        <h2 className="text-3xl font-extrabold text-gray-900 mb-8 text-center">
-          Log In
-        </h2>
-        <form
-          id="signupForm"
-          className="signup-form space-y-6"
-          onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="email" className="block text-l text-gray-700 mb-1">
-              Email Address
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              required
-              className="input-focus block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-            />
+    <div className="flex min-h-screen w-full">
+      {/* Left Side: Light Gray Background */}
+      <div className="hidden w-1/2 bg-[#f4f4f5] p-10 lg:flex flex-col border-r border-zinc-200">
+        {/* Logo/Brand placeholder can go here */}
+        <div className="flex items-center gap-2 font-medium">
+          <span className="text-xl">⌘</span>
+          <span>Multi Vendor Marketplace</span>
+        </div>
+      </div>
+
+      {/* Right Side: Solid White Background */}
+      <div className="flex w-full flex-col bg-white lg:w-1/2 p-10">
+        {/* Top-right 'Login' placeholder */}
+        <div className="flex justify-end">
+          <span className="text-sm font-medium cursor-pointer">Sign Up</span>
+        </div>
+
+        {/* Content Area (Where your form would be centered) */}
+        <div className="flex flex-1 items-center justify-center">
+          <div className="flex flex-col space-y-6 w-full max-w-[350px]">
+            {/* Header text */}
+            <div className="flex flex-col space-y-2 text-center">
+              <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
+              <p className="text-sm text-muted-foreground">
+                Enter your credentials to access your account
+              </p>
+            </div>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input placeholder="name@example.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="Password"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" className="w-full">
+                  Login
+                </Button>
+              </form>
+            </Form>
           </div>
-          <div className="input-group">
-            <label
-              htmlFor="password"
-              className="block text-l text-gray-700 mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-              required
-              className="input-focus block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150">
-            Login
-          </button>
-        </form>
-      </main>
-      <footer></footer>
+        </div>
+      </div>
     </div>
   );
 }
