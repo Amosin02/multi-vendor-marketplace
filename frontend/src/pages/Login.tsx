@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useNavigate } from 'react-router-dom';
+import AuthLayout from '@/components/ui/layout/AuthLayout';
 
 const formSchema = z.object({
   email: z.string().email({
@@ -55,74 +56,47 @@ export default function Login() {
     }
   }
 
+  function handleSignUpButton() {
+    navigate('/signup');
+  }
+
   return (
-    <div className="flex min-h-screen w-full">
-      {/* Left Side: Light Gray Background */}
-      <div className="hidden w-1/2 bg-[#f4f4f5] p-10 lg:flex flex-col border-r border-zinc-200">
-        {/* Logo/Brand placeholder can go here */}
-        <div className="flex items-center gap-2 font-medium">
-          <span className="text-xl">⌘</span>
-          <span>Multi Vendor Marketplace</span>
-        </div>
-      </div>
-
-      {/* Right Side: Solid White Background */}
-      <div className="flex w-full flex-col bg-white lg:w-1/2 p-10">
-        {/* Top-right 'Login' placeholder */}
-        <div className="flex justify-end">
-          <span className="text-sm font-medium cursor-pointer">Sign Up</span>
-        </div>
-
-        {/* Content Area (Where your form would be centered) */}
-        <div className="flex flex-1 items-center justify-center">
-          <div className="flex flex-col space-y-6 w-full max-w-[350px]">
-            {/* Header text */}
-            <div className="flex flex-col space-y-2 text-center">
-              <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
-              <p className="text-sm text-muted-foreground">
-                Enter your credentials to access your account
-              </p>
-            </div>
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input placeholder="name@example.com" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          type="password"
-                          placeholder="Password"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button type="submit" className="w-full">
-                  Login
-                </Button>
-              </form>
-            </Form>
-          </div>
-        </div>
-      </div>
-    </div>
+    <AuthLayout
+      title="Login"
+      description="Enter your credentials to access your account"
+      rightButtonText="Signup"
+      onRightButtonClick={() => navigate('/signup')}>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder="name@example.com" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input type="password" placeholder="Password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" className="w-full">
+            Login
+          </Button>
+        </form>
+      </Form>
+    </AuthLayout>
   );
 }
