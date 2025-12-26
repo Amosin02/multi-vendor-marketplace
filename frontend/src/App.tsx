@@ -1,26 +1,25 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import { useEffect, useState } from 'react';
-import type { Products } from './model/model';
 import HomeVendor from './pages/HomeVendor';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 
 function App() {
-  const [products, setProducts] = useState<Products[]>([]);
+  // const [products, setProducts] = useState<Products[]>([]);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await fetch('http://localhost:4001/api/products');
-      const data = await response.json();
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     const response = await fetch('http://localhost:4001/api/products');
+  //     const data = await response.json();
 
-      if (data.product) {
-        setProducts(data.product);
-      }
-    };
+  //     if (data.product) {
+  //       setProducts(data.product);
+  //     }
+  //   };
 
-    fetchProducts();
-  }, []);
+  //   fetchProducts();
+  // }, []);
+
   return (
     <>
       <BrowserRouter>
@@ -28,7 +27,7 @@ function App() {
           <Routes>
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/home" element={<Home products={products} />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/vendor" element={<HomeVendor />} />
           </Routes>
         </div>

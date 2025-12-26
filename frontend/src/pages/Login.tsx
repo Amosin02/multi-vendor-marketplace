@@ -56,10 +56,6 @@ export default function Login() {
     }
   }
 
-  function handleSignUpButton() {
-    navigate('/signup');
-  }
-
   return (
     <AuthLayout
       title="Login"
