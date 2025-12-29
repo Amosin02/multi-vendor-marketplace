@@ -6,6 +6,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { useState } from 'react';
 import type { Products } from '../../../model/model';
+import { useLogout } from '@/hooks/useLogout';
 
 // Example product data
 const PRODUCTS = [
@@ -53,6 +54,7 @@ interface Props {
 
 export default function HomeLayout({ products }: Props) {
   const [search, setSearch] = useState('');
+  const { logout } = useLogout();
 
   const filteredProducts = products.filter(
     (p) =>
@@ -135,8 +137,12 @@ export default function HomeLayout({ products }: Props) {
             <Button variant="ghost" size="icon" className="rounded-full">
               <ShoppingBag size={20} />
             </Button>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <User size={20} />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={logout}
+              className="rounded-full">
+              <LogOut size={20} />
             </Button>
           </div>
         </header>

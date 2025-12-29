@@ -1,11 +1,11 @@
 import type { Products } from '../model/model';
-import { useLogout } from '../hooks/useLogout';
 import HomeLayout from '@/components/ui/layout/HomeLayout';
+import { useGetRole } from '@/model/store';
 import { useState, useEffect } from 'react';
 
 const Home = () => {
-  const { logout } = useLogout();
   const [products, setProducts] = useState<Products[]>([]);
+  const { role } = useGetRole();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -14,6 +14,7 @@ const Home = () => {
 
       if (data.product) {
         setProducts(data.product);
+        console.log(role);
       }
     };
 

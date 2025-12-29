@@ -13,6 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useNavigate } from 'react-router-dom';
 import AuthLayout from '@/components/ui/layout/AuthLayout';
+import { useGetRole } from '@/model/store';
 
 const formSchema = z.object({
   email: z.string().email({
@@ -25,6 +26,7 @@ const formSchema = z.object({
 
 export default function Login() {
   const navigate = useNavigate();
+  const { setUser } = useGetRole();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,7 +49,10 @@ export default function Login() {
 
       const data = await response.json();
 
+      // console.log(data);
+
       if (data.user) {
+        setUser(data.user, data.role);
         navigate('/home');
       }
     } catch (error) {
