@@ -49,11 +49,14 @@ export default function Login() {
 
       const data = await response.json();
 
-      // console.log(data);
-
       if (data.user) {
         setUser(data.user, data.role);
-        navigate('/home');
+
+        if (data.role === 'vendor') {
+          navigate('/vendor');
+        } else {
+          navigate('/home');
+        }
       }
     } catch (error) {
       console.log(error);

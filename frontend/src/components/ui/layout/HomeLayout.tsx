@@ -1,59 +1,21 @@
-import { Search, ShoppingBag, User, LogOut } from 'lucide-react';
+import { Search, ShoppingBag, LogOut } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Products } from '../../../model/model';
 import { useLogout } from '@/hooks/useLogout';
 
-// Example product data
-const PRODUCTS = [
-  {
-    id: 1,
-    name: 'Premium Backpack',
-    vendor: 'Urban Gear',
-    price: 89,
-    category: 'Accessories',
-  },
-  {
-    id: 2,
-    name: 'Wireless Mouse',
-    vendor: 'LogiTech',
-    price: 45,
-    category: 'Electronics',
-  },
-  {
-    id: 3,
-    name: 'Mechanical Keyboard',
-    vendor: 'Keychron',
-    price: 120,
-    category: 'Electronics',
-  },
-  {
-    id: 4,
-    name: 'Leather Wallet',
-    vendor: 'Bellroy',
-    price: 75,
-    category: 'Accessories',
-  },
-  {
-    id: 5,
-    name: 'Canvas Tote',
-    vendor: 'EcoShop',
-    price: 20,
-    category: 'Accessories',
-  },
-  { id: 6, name: 'Desk Lamp', vendor: 'Lumina', price: 55, category: 'Home' },
-];
-
 interface Props {
   products: Products[];
+  getProductsCategory: Function;
 }
 
-export default function HomeLayout({ products }: Props) {
+export default function HomeLayout({ products, getProductsCategory }: Props) {
   const [search, setSearch] = useState('');
+  const [categories, setCategories] = useState([]);
   const { logout } = useLogout();
 
   const filteredProducts = products.filter(
@@ -61,6 +23,19 @@ export default function HomeLayout({ products }: Props) {
       p.name.toLowerCase().includes(search.toLowerCase()) ||
       p.vendor.toLowerCase().includes(search.toLowerCase())
   );
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await fetch('http://localhost:4001/api/categories');
+      const dataCategories = await response.json();
+
+      if (dataCategories) {
+        setCategories(dataCategories);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-white text-zinc-950">
@@ -80,16 +55,20 @@ export default function HomeLayout({ products }: Props) {
                 Categories
               </h3>
               <nav className="space-y-1">
-                {[
-                  'All Products',
-                  'Electronics',
-                  'Fashion',
-                  'Home & Living',
-                ].map((cat) => (
+                <button
+                  onClick={() =>
+                    getProductsCategory('695387568a3689ec6d00e99b')
+                  }
+                  className="block w-full text-left text-sm py-1.5 hover:underline">
+                  All Products
+                </button>
+
+                {categories.map(({ _id, name }) => (
                   <button
-                    key={cat}
+                    key={_id}
+                    onClick={() => getProductsCategory(_id)}
                     className="block w-full text-left text-sm py-1.5 hover:underline underline-offset-4">
-                    {cat}
+                    {name}
                   </button>
                 ))}
               </nav>

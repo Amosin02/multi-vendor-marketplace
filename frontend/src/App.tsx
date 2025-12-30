@@ -3,22 +3,10 @@ import Home from './pages/Home';
 import HomeVendor from './pages/HomeVendor';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import { useGetRole } from '@/model/store';
 
 function App() {
-  // const [products, setProducts] = useState<Products[]>([]);
-
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     const response = await fetch('http://localhost:4001/api/products');
-  //     const data = await response.json();
-
-  //     if (data.product) {
-  //       setProducts(data.product);
-  //     }
-  //   };
-
-  //   fetchProducts();
-  // }, []);
+  const { role, userId } = useGetRole();
 
   return (
     <>
@@ -28,7 +16,9 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/vendor" element={<HomeVendor />} />
+            {role === 'vendor' && (
+              <Route path="/vendor" element={<HomeVendor />} />
+            )}
           </Routes>
         </div>
       </BrowserRouter>

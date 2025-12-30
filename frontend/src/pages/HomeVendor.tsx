@@ -1,6 +1,4 @@
 import { ScrollArea } from '@radix-ui/react-scroll-area';
-import { Separator } from '@/components/ui/separator';
-import React from 'react';
 
 function HomeVendor() {
   return (

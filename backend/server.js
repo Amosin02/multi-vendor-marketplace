@@ -24,17 +24,10 @@ app.use('/api/products', productRoutes);
 app.use('/api/categories', categoriesRoutes);
 app.use('/api/vendor', vendorRoutes);
 
-// I think this is not supposed to be here
-// app.use('/api/vendor', requireAuth, async (req, res) => {
-//   const product = await Product.find({ vendor: vendorId });
-//   res.json(product);
-// });
-
 // connect to db
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
-    // listen for requests
     app.listen(process.env.PORT, () => {
       console.log(`Connected to DB & Listening on port ${process.env.PORT}`);
     });
