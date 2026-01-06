@@ -4,6 +4,7 @@ import HomeVendor from './pages/HomeVendor';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import { useGetRole } from '@/model/store';
+import ErrorPage from './pages/ErrorPage';
 
 function App() {
   const { role, userId } = useGetRole();
@@ -16,8 +17,10 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />
-            {role === 'vendor' && (
+            {role === 'vendor' ? (
               <Route path="/vendor" element={<HomeVendor />} />
+            ) : (
+              <Route path="/vendor" element={<ErrorPage />} />
             )}
           </Routes>
         </div>
