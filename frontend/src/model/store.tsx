@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 type Role = {
   role: string | null;
@@ -7,15 +8,23 @@ type Role = {
   logoutUser: () => void;
 };
 
-export const useGetRole = create<Role>()((set) => ({
-  role: null,
-  userId: null,
+export const useGetRole = create<Role>()(
+  persist(
+    (set) => ({
+      role: null,
+      userId: null,
 
-  setUser: (id, role) => {
-    set({ role: role, userId: id });
-  },
+      setUser: (id, role) => {
+        set({ role: role, userId: id });
+      },
 
-  logoutUser: () => {
-    set({ role: null, userId: null });
-  },
-}));
+      logoutUser: () => {
+        set({ role: null, userId: null });
+      },
+    }),
+    {
+      name: 'auth-storage',
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+);
