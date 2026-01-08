@@ -1,11 +1,9 @@
 import HomeVendorLayout from '@/components/ui/layout/HomeVendorLayout';
 
-function HomeVendor() {
+export default function Catalog() {
   return (
     <HomeVendorLayout>
-      <h1>tests</h1>
+      <h1>Catalog</h1>
     </HomeVendorLayout>
   );
 }
-
-export default HomeVendor;

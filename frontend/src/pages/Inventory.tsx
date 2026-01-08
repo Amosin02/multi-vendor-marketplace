@@ -1,3 +1,9 @@
+import HomeVendorLayout from '@/components/ui/layout/HomeVendorLayout';
+
 export default function Inventory() {
-  return <div>Inventory</div>;
+  return (
+    <HomeVendorLayout>
+      <h1>Inventory</h1>
+    </HomeVendorLayout>
+  );
 }

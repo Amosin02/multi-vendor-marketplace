@@ -1,11 +1,9 @@
 import HomeVendorLayout from '@/components/ui/layout/HomeVendorLayout';
 
-function HomeVendor() {
+export default function Performance() {
   return (
     <HomeVendorLayout>
-      <h1>tests</h1>
+      <h1>Perfomance</h1>
     </HomeVendorLayout>
   );
 }
-
-export default HomeVendor;
