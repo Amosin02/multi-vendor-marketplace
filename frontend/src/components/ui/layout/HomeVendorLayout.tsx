@@ -1,5 +1,5 @@
 import { ScrollArea } from '@radix-ui/react-scroll-area';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface HomeVendLayoutProps {
   children: React.ReactNode;
@@ -7,6 +7,7 @@ interface HomeVendLayoutProps {
 
 export default function HomeVendorLayout({ children }: HomeVendLayoutProps) {
   const navigate = useNavigate();
+
   return (
     <div className="flex h-screen w-full overflow-hidden bg-white text-zinc-950">
       <aside className="hidden w-64 flex-col border-r border-zinc-200 bg-[#f4f4f5] lg:flex">
@@ -45,6 +46,7 @@ export default function HomeVendorLayout({ children }: HomeVendLayoutProps) {
           </div>
         </ScrollArea>
       </aside>
+
       <div>{children}</div>
     </div>
   );

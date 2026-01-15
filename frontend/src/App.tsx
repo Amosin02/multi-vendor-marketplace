@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import HomeVendor from './pages/HomeVendor';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ErrorPage from './pages/ErrorPage';
@@ -23,7 +22,6 @@ function App() {
           <Route path="/home" element={<Home />} />
 
           <Route element={<VendorRoutes />}>
-            <Route path="/vendor" element={<HomeVendor />} />
             <Route path="/vendor/inventory" element={<Inventory />} />
             <Route path="/vendor/reports" element={<Reports />} />
             <Route path="/vendor/catalog" element={<Catalog />} />

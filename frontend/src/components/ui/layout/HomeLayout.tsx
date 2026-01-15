@@ -1,4 +1,4 @@
-import { Search, ShoppingBag, LogOut } from 'lucide-react';
+import { Search, LogOut, ShoppingCart } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
@@ -17,6 +17,7 @@ export default function HomeLayout({ products, getProductsCategory }: Props) {
   const [search, setSearch] = useState('');
   const [categories, setCategories] = useState([]);
   const { logout } = useLogout();
+  const [selectedCategory, setSelectedCategory] = useState('Our Products');
 
   const filteredProducts = products.filter(
     (p) =>
@@ -56,9 +57,10 @@ export default function HomeLayout({ products, getProductsCategory }: Props) {
               </h3>
               <nav className="space-y-1">
                 <button
-                  onClick={() =>
-                    getProductsCategory('695387568a3689ec6d00e99b')
-                  }
+                  onClick={() => {
+                    getProductsCategory('695387568a3689ec6d00e99b');
+                    setSelectedCategory('Our Products');
+                  }}
                   className="block w-full text-left text-sm py-1.5 hover:underline">
                   All Products
                 </button>
@@ -66,7 +68,10 @@ export default function HomeLayout({ products, getProductsCategory }: Props) {
                 {categories.map(({ _id, name }) => (
                   <button
                     key={_id}
-                    onClick={() => getProductsCategory(_id)}
+                    onClick={() => {
+                      getProductsCategory(_id);
+                      setSelectedCategory(name);
+                    }}
                     className="block w-full text-left text-sm py-1.5 hover:underline underline-offset-4">
                     {name}
                   </button>
@@ -114,7 +119,7 @@ export default function HomeLayout({ products, getProductsCategory }: Props) {
           </div>
           <div className="ml-auto flex items-center gap-2">
             <Button variant="ghost" size="icon" className="rounded-full">
-              <ShoppingBag size={20} />
+              <ShoppingCart size={20} />
             </Button>
             <Button
               variant="ghost"
@@ -131,7 +136,7 @@ export default function HomeLayout({ products, getProductsCategory }: Props) {
           <div className="p-8">
             <div className="mb-6">
               <h2 className="text-2xl font-semibold tracking-tight">
-                Our Products
+                {selectedCategory}
               </h2>
               <p className="text-sm text-zinc-500">
                 Explore items from our verified marketplace vendors.

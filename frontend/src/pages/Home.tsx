@@ -13,6 +13,7 @@ const Home = () => {
       setProducts(data.product);
     }
   };
+
   useEffect(() => {
     fetchProducts();
   }, []);

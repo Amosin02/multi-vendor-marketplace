@@ -53,7 +53,7 @@ export default function Login() {
         setUser(data.user, data.role);
 
         if (data.role === 'vendor') {
-          navigate('/vendor');
+          navigate('/vendor/catalog');
         } else {
           navigate('/home');
         }
